@@ -29,7 +29,9 @@ Querity supports both **SQL and NoSQL** databases through modular components —
 
 * Java 17+
 * For the Spring modules:
-  * Spring Framework 6 (optionally Spring Boot 3... makes things a lot simpler)
+  * Spring Boot 4
+
+See [Compatibility matrix](#compatibility-matrix) for previous versions.
 
 # Installing
 
@@ -59,6 +61,15 @@ See [Releases](https://github.com/queritylib/querity/releases) to check the late
 
 All the Spring-related modules are "Spring Boot starters": if you use Spring Boot you just need to add the dependency to your project and
 start using it, no other configuration needed.
+
+## Compatibility matrix
+
+| Querity | Java | Spring Boot | Spring Framework | Hibernate | Jackson |
+|---------|------|-------------|------------------|-----------|---------|
+| 4.x     | 17+  | 4.0.x       | 7.0.x            | 7.x       | 3.x     |
+| 3.x     | 17+  | 3.4.x+      | 6.2.x            | 6.6.x     | 2.x     |
+| 2.x     | 17+  | 3.0.x       | 6.0.x            | 6.1.x     | 2.x     |
+| 1.x     | 8+   | 2.7.x       | 5.3.x            | 5.6.x     | 2.x     |
 
 ## Without Spring Boot autoconfiguration
 
