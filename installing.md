@@ -35,12 +35,12 @@ start using it, no other configuration needed.
 
 ## Compatibility matrix
 
-| Querity | Java | Spring Boot | Spring Framework | Hibernate | Jackson | Jakarta Persistence |
-|---------|------|-------------|------------------|-----------|---------|---------------------|
-| 4.x     | 17+  | 4.0.x       | 7.0.x            | 7.x       | 3.x     | 3.2                 |
-| 3.x     | 17+  | 3.4.x+      | 6.2.x            | 6.6.x     | 2.x     | 3.1                 |
-| 2.x     | 17+  | 3.0.x       | 6.0.x            | 6.1.x     | 2.x     | 3.1                 |
-| 1.x     | 8+   | 2.7.x       | 5.3.x            | 5.6.x     | 2.x     | 2.2 (javax)         |
+| Querity | Java | Spring Boot | Spring Framework | Hibernate | Jakarta Persistence | Jackson |
+|---------|------|-------------|------------------|-----------|---------------------|---------|
+| 4.x     | 17+  | 4.0.x       | 7.0.x            | 7.x       | 3.2                 | 3.x     |
+| 3.x     | 17+  | 3.4.x+      | 6.2.x            | 6.6.x     | 3.1                 | 2.x     |
+| 2.x     | 17+  | 3.0.x       | 6.0.x            | 6.1.x     | 3.1                 | 2.x     |
+| 1.x     | 8+   | 2.7.x       | 5.3.x            | 5.6.x     | 2.2 (javax)         | 2.x     |
 
 ## Without Spring Boot autoconfiguration
 
