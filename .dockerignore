@@ -1,0 +1,9 @@
+_site
+.git
+.github
+.idea
+vendor
+.jekyll-cache
+.sass-cache
+.jekyll-metadata
+node_modules

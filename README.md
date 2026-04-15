@@ -1,36 +1,31 @@
-Querity
-=======
+# Querity
 
-Documentation site
+Documentation site built with [Jekyll](https://jekyllrb.com/) and the [Just the Docs](https://just-the-docs.com/) theme.
 
 ## How to make changes to the documentation
 
-### Set up the local environment
+The documentation content is split across the Markdown pages in the repository root plus the `features/` and `spring-mvc/` subdirectories. The site chrome is provided by Jekyll + Just the Docs.
 
-The website is build with [Jekyll](https://jekyllrb.com/).
+## Run locally with Docker
 
-You can set up your local environment by
-following [this guide](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll)
-OR you could just use a Docker container to not mess with your local machine.
+This repository includes a Docker-based local setup, so you do not need Ruby installed on your machine.
 
-If you choose the Docker option, you could create Bash command aliases to make it simpler to follow the guides around;
-to do this, add the following lines to `~/.bash_aliases`:
+### Start the local server
 
-```
-alias jekyll='docker run --rm --volume="$(pwd):/src/site" --volume="$(pwd)/vendor/bundle:/usr/local/bundle" -w /src/site -p 4000:4000 -it ruby:3.3.0 jekyll'
-alias bundle='docker run --rm --volume="$(pwd):/src/site" --volume="$(pwd)/vendor/bundle:/usr/local/bundle" -w /src/site -it ruby:3.3.0 bundle'
+```bash
+docker compose up --build
 ```
 
-and restart the Bash command line to read the new aliases.
+The site will be available at <http://localhost:4000>.
 
-Create the project subdirectory to download the dependencies:
+### Stop the local server
 
+```bash
+docker compose down
 ```
-mkdir -p vendor/bundle
-```
 
-Finally, run `bundle install` to download the dependencies.
+## Notes
 
-### Testing locally
-
-Run `jekyll serve --baseurl= --host=0.0.0.0` in the root of the project and then open http://localhost:4000 in your web browser.
+- The container installs gems through Bundler and serves the site with Jekyll.
+- Search support is generated from `assets/js/zzzz-search-data.json`, which is included in the repository for gem-based Just the Docs builds.
+- GitHub Pages deployment is handled through the workflow in `.github/workflows/jekyll-gh-pages.yml`.
