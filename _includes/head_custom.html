@@ -1,0 +1,16 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    if (searchInput && searchResults) {
+      const guardSearchFocusout = (event) => {
+        if (event.relatedTarget) return;
+        event.stopImmediatePropagation();
+      };
+
+      searchInput.addEventListener('focusout', guardSearchFocusout, true);
+      searchResults.addEventListener('focusout', guardSearchFocusout, true);
+    }
+  });
+</script>
