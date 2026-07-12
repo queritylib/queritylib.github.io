@@ -23,6 +23,11 @@ Query query = Querity.query()
 Query query = Querity.query()
     .filter(filterBy(length(prop("firstName")), GREATER_THAN, 5))
     .build();
+
+// Filter by a computed value (quantity * unitPrice)
+Query query = Querity.query()
+    .filter(filterBy(multiply(prop("quantity"), prop("unitPrice")), GREATER_THAN, 1000))
+    .build();
 ```
 
 ## Using functions in sorting
@@ -57,7 +62,7 @@ AdvancedQuery query = Querity.advancedQuery()
 
 | Category | Functions |
 |----------|-----------|
-| Arithmetic | `abs()`, `sqrt()`, `mod()` |
+| Arithmetic | `abs()`, `sqrt()`, `mod()`, `add()`, `subtract()`, `multiply()`, `divide()`, `negate()` |
 | String | `concat()`, `substring()`, `trim()`, `ltrim()`, `rtrim()`, `lower()`, `upper()`, `length()`, `locate()` |
 | Date/Time | `currentDate()`, `currentTime()`, `currentTimestamp()` |
 | Conditional | `coalesce()`, `nullif()` |
@@ -75,6 +80,16 @@ coalesce(prop("nickname"), lit("Anonymous"))
 mod(prop("quantity"), lit(10))
 concat(prop("firstName"), lit(" - "), prop("lastName"))
 
+// Arithmetic functions
+add(prop("basePrice"), prop("shippingCost"))          // variadic: 2+ arguments
+multiply(prop("quantity"), prop("unitPrice"))         // variadic: 2+ arguments
+subtract(prop("price"), lit(10))                      // binary: exactly 2 arguments
+divide(prop("total"), prop("count"))                  // binary: exactly 2 arguments
+negate(prop("balance"))                               // unary: exactly 1 argument
+
+// SUBTRACT and DIVIDE are strictly binary; express chains by nesting
+subtract(subtract(prop("total"), prop("discount")), prop("tax"))  // (total - discount) - tax
+
 // Nested functions
 upper(trim(prop("name")))  // UPPER(TRIM(name))
 length(lower(prop("email")))  // LENGTH(LOWER(email))
@@ -83,6 +98,8 @@ length(lower(prop("email")))  // LENGTH(LOWER(email))
 upper(prop("address.city"))
 coalesce(prop("contact.email"), prop("contact.phone"), lit("N/A"))
 ```
+
+> **Note:** with integer operands, `divide()` follows the backend's integer-division semantics (e.g. `divide(lit(7), lit(2))` may yield `3`).
 
 ## Backend support for functions
 
@@ -95,6 +112,7 @@ coalesce(prop("contact.email"), prop("contact.phone"), lit("N/A"))
 | Function | JPA | MongoDB | Elasticsearch |
 |----------|-----|---------|---------------|
 | `abs()`, `sqrt()`, `mod()` | ✓ Filters, Sort, Select | ✓ Filters only | ✗ |
+| `add()`, `subtract()`, `multiply()`, `divide()`, `negate()` | ✓ Filters, Sort, Select | ✓ Filters only | ✗ |
 | `concat()`, `substring()`, `trim()`, `ltrim()`, `rtrim()` | ✓ Filters, Sort, Select | ✓ Filters only | ✗ |
 | `lower()`, `upper()`, `length()`, `locate()` | ✓ Filters, Sort, Select | ✓ Filters only | ✗ |
 | `currentDate()`, `currentTime()`, `currentTimestamp()` | ✓ Filters, Sort, Select | ✓ Filters only | ✗ |

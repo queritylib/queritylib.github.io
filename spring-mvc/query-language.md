@@ -83,7 +83,8 @@ BOOLEAN_VALUE : 'true' | 'false';
 PROPERTY      : [a-zA-Z_][a-zA-Z0-9_.]*;
 STRING_VALUE  : '"' (~["\\] | '\\' .)* '"';
 FUNCTION_NAME : 'UPPER' | 'LOWER' | 'LENGTH' | 'TRIM' | 'LTRIM' | 'RTRIM' |
-                'ABS' | 'SQRT' | 'MOD' | 'CONCAT' | 'SUBSTRING' | 'LOCATE' |
+                'ABS' | 'SQRT' | 'MOD' | 'ADD' | 'SUBTRACT' | 'MULTIPLY' |
+                'DIVIDE' | 'NEGATE' | 'CONCAT' | 'SUBSTRING' | 'LOCATE' |
                 'COALESCE' | 'NULLIF' | 'CURRENT_DATE' | 'CURRENT_TIME' |
                 'CURRENT_TIMESTAMP' | 'COUNT' | 'SUM' | 'AVG' | 'MIN' | 'MAX';
 
@@ -145,7 +146,13 @@ LOWER(email) starts with "luke"
 and(UPPER(lastName)="SKYWALKER", LENGTH(firstName)>3)
 sort by LENGTH(lastName) desc
 COALESCE(nickname, firstName)="Luke"
+MULTIPLY(quantity, unitPrice)>1000
+ADD(basePrice, shippingCost)<=100
+SUBTRACT(price, discount)>50
+sort by DIVIDE(total, count) desc
 ```
+
+> `ADD` and `MULTIPLY` are variadic (2 or more arguments); `SUBTRACT` and `DIVIDE` take exactly two arguments (nest calls to chain them); `NEGATE` takes one.
 
 **Optional WHERE keyword:**
 
