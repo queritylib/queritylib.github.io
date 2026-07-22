@@ -67,6 +67,39 @@ AdvancedQuery query = Querity.advancedQuery()
     .build();
 ```
 
+## Native GROUP BY expressions (JPA only)
+
+For groupings the querity model cannot express (e.g. a JSON extraction over a `jsonb` column),
+use `groupByNative` with a `GroupBySpecification` — the deferred `(Root, CriteriaBuilder) -> Expression`
+counterpart of the native select and native sort specifications.
+
+Because the aggregate must be computed per group, pair it with native selections
+(`selectByNative`) so the whole query is native:
+
+```java
+import static io.github.queritylib.querity.api.Querity.*;
+
+SelectionSpecification<MyEntity> categorySelection = AliasedSelectionSpecification.of(
+    (root, cb) -> cb.function("jsonb_extract_path_text", String.class,
+        root.get("attributes"), cb.literal("category")),
+    "category");
+SelectionSpecification<MyEntity> totalSelection = AliasedSelectionSpecification.of(
+    (root, cb) -> cb.count(root.get("id")), "total");
+GroupBySpecification<MyEntity> categoryGrouping =
+    (root, cb) -> cb.function("jsonb_extract_path_text", String.class,
+        root.get("attributes"), cb.literal("category"));
+
+AdvancedQuery query = Querity.advancedQuery()
+    .select(selectByNative(categorySelection, totalSelection))
+    .groupBy(groupByNative(categoryGrouping))
+    .build();
+List<Map<String, Object>> results = querity.findAllProjected(MyEntity.class, query);
+```
+
+`groupByNative` accepts one or more specifications, mirroring `selectByNative` and `sortByNative`.
+
+> Native GROUP BY expressions are only available for JPA.
+
 > **Backend support:**
 > - **JPA**: Full support for GROUP BY and HAVING
 > - **MongoDB**: Not yet supported
